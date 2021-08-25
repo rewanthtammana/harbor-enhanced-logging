@@ -1,0 +1,70 @@
+worker_processes 1;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+
+    init_by_lua_block {
+        require "hello"
+	require "resty.redis"
+    }
+
+    #lua_package_path "$prefix/lua/?.lua;;";
+    lua_package_path "$prefix/lua/?.lua;$prefix/lua-resty-redis/lib/?.lua;;";
+
+    server {
+        listen 8080 reuseport;
+
+        location / {
+            set $hello '';
+            default_type text/plain;
+            content_by_lua_block {
+                local hello = require "hello"
+
+		local redis = require "resty.redis"
+                local red = redis:new()
+
+		red:set_timeouts(1000, 1000, 1000)
+
+		local ok, err = red:connect("172.17.0.3", 6379)
+		if not ok then
+                    ngx.say("failed to connect: ", err)
+                    return
+                end
+
+		ok, err = red:set("dog", "an animal")
+                if not ok then
+                    ngx.say("failed to set dog: ", err)
+                    return
+                end
+
+                ngx.say("set result: ", ok)
+
+                local res, err = red:get("abcd")
+                if not res then
+                    ngx.say("failed to get dog: ", err)
+                    return
+                end
+
+                if res == ngx.null then
+                    ngx.say("dog not found.")
+                    return
+                end
+
+		email=hello.greet(res)
+		ngx.var.hello = email
+		ngx.say("Email from greet = ", email)
+            }
+        }
+    }
+
+   log_format main 'AAABBB $hello $remote_addr - $remote_user [$time_local] '
+                  '"$request" $status $bytes_sent '
+                  '"$http_referer" "$http_user_agent" "$request_body"';
+   access_log "/root/hello/logs/access.log" main;
+
+
+}
+
