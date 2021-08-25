@@ -10,7 +10,9 @@ When it comes to the Security Standards and requirements of compliance Harbor do
 
 - Clone [Harbor](https://github.com/goharbor/harbor) repository
 - Run the install preparation script
-- After that, copy `nginx-custom` folder to `./make/common/config` in Harbor
+- Clone the repo & add the submodules
+  - `git clone https://github.com/rewanthtammana/harbor-logging && cd harbor-logging && git submodule add https://github.com/openresty/lua-resty-redis make/common/config/nginx-custom/lua-resty-redis`
+- After that, copy `./make/common/config/nginx-custom/` folder to `make/common/config` in Harbor folder
 - Update `./make/docker-compose.yml` with `./make/docker-compose.yml`
 - Start Harbor
 
@@ -29,7 +31,7 @@ When it comes to the Security Standards and requirements of compliance Harbor do
 
 `./make/common/config/nginx-custom/conf/nginx.conf` contains the customized logging configuration.
 
-Along with a bunch of other Lua codes, [here](https://github.com/rewanthtammana/custom-harbor/blob/master/make/common/config/nginx-custom/lua/user.lua), a considerable upgrade has been performed in the logging conf, [here](https://github.com/rewanthtammana/custom-harbor/blob/master/make/common/config/nginx-custom/conf/nginx.conf)
+Along with a bunch of other Lua codes, [here](https://github.com/rewanthtammana/harbor-logging/blob/master/make/common/config/nginx-custom/lua/user.lua), a considerable upgrade has been performed in the logging conf, [here](https://github.com/rewanthtammana/harbor-logging/blob/master/make/common/config/nginx-custom/conf/nginx.conf)
 
 ```apacheconf
   ...
