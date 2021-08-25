@@ -8,11 +8,24 @@ When it comes to the Security Standards and requirements of compliance Harbor do
 
 ## Installation
 
-- During the installation of Harbor, copy `nginx-custom` folder to `nginx`
-- Update `docker-compose.yml` with `./make/docker-compose.yml`
+- Clone [Harbor](https://github.com/goharbor/harbor) repository
+- Run the install preparation script
+- After that, copy `nginx-custom` folder to `./make/common/config` in Harbor
+- Update `./make/docker-compose.yml` with `./make/docker-compose.yml`
 - Start Harbor
 
 ## Technicalities
+
+### Default logging configuration
+
+```apacheconf
+  log_format timed_combined '$remote_addr - '
+    '"$request" $status $body_bytes_sent '
+    '"$http_referer" "$http_user_agent" '
+    '$request_time $upstream_response_time $pipe';
+```
+
+### Custom logging configuration
 
 `./make/common/config/nginx-custom/conf/nginx.conf` contains the customized logging configuration.
 
