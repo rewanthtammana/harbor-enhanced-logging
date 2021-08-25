@@ -10,11 +10,14 @@ When it comes to the Security Standards and requirements of compliance Harbor do
 
 - Clone [Harbor](https://github.com/goharbor/harbor) repository
 - Run the install preparation script
-- Clone the repo & add the submodules
-  - `git clone https://github.com/rewanthtammana/harbor-logging && cd harbor-logging && git submodule add https://github.com/openresty/lua-resty-redis make/common/config/nginx-custom/lua-resty-redis`
-- After that, copy `./make/common/config/nginx-custom/` folder to `make/common/config` in Harbor folder
-- Update `./make/docker-compose.yml` with `./make/docker-compose.yml`
-- Start Harbor
+- Clone this repo & add the submodules
+  ```bash
+  git clone https://github.com/rewanthtammana/harbor-logging
+  cd harbor-logging
+  git submodule add https://github.com/openresty/lua-resty-redis make/common/config/nginx-custom/lua-resty-redis
+  ```
+- Copy `./make/common/config/nginx-custom/` & `./make/docker-compose.yml` to Harbor's folder
+- Start & get Harbor running
 
 ## Technicalities
 
