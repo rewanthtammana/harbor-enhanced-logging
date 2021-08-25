@@ -12,7 +12,32 @@ When it comes to the Security Standards and requirements of compliance Harbor do
 - Update `docker-compose.yml` with `./make/docker-compose.yml`
 - Start Harbor
 
-## Explanation
+## Technicalities
 
-`./make/common/config/nginx-custom/conf/nginx.conf` contains the customized code to solve the auditing problem.
+`./make/common/config/nginx-custom/conf/nginx.conf` contains the customized logging configuration.
+
+Along with a bunch of other Lua codes, [here](https://github.com/rewanthtammana/custom-harbor/blob/master/make/common/config/nginx-custom/lua/user.lua), a considerable upgrade has been performed in the logging conf, [here](https://github.com/rewanthtammana/custom-harbor/blob/master/make/common/config/nginx-custom/conf/nginx.conf)
+
+```apacheconf
+  ...
+  location / {
+    ...
+    default_type text/plain;
+    access_by_lua_block {
+      local user = require "user"
+      local redis = require "resty.redis"
+      local red = redis:new()
+
+      ngx.var.email=user.fetch(red, ngx.var.cookie_sid)
+    }
+  }
+  ...
+  log_format timed_combined escape=none '($email) $remote_addr - '
+  '"$request" $status $body_bytes_sent '
+  '"$http_referer" "$http_user_agent" '
+  '$request_time $upstream_response_time $pipe'
+  '$request_body';
+```
+
+The above changes along with other replacements in architecture flows allow us to solve this problem.
 
