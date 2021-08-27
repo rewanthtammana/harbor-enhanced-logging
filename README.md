@@ -6,6 +6,14 @@ Harbor is an open-source registry that secures artifacts with policies and role-
 
 When it comes to the Security Standards and requirements of compliance Harbor doesn't have a mechanism to perform audit logging functionality. This repo contains code to sovle this problem.
 
+## Current workflow
+
+![rewanthtammana-Harbor-default-flow.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1629466236081/DD2wuKbM2.png)
+
+## Enhanced workflow
+
+![rewanthtammana-Harbor-enhanced-flow.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1629466401602/u6Gn1Fp4l.png)
+
 ## Installation
 
 - Clone [Harbor](https://github.com/goharbor/harbor) repository
